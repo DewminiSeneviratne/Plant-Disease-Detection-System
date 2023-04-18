@@ -1,0 +1,10 @@
+.howitworksbg {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    background-image: url('/src/images/howitworksbg.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }

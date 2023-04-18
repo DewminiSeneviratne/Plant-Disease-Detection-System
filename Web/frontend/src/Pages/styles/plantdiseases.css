@@ -1,0 +1,150 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.usersbg {
+    /*height: 600vh;*/
+    background: linear-gradient(141deg, #6bb83b 0%, #4EA685 51%, #6bb83b 75%);
+  }
+
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    background-color: #edf2ec;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.9);
+}
+
+.plantdiseasescard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: Poppins;
+    background-color: #f6f6f6;
+}
+
+.plantdiseasescard:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.9);
+}
+
+.cardcontainer {
+    padding: 2px 16px;
+}
+
+.plantdiseasestitle {
+    color: grey;
+    font-size: 18px;
+}
+
+.plantsbuttons {
+    color: f6f6f6;
+    background-color: #1a7553;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    height: 40px;
+    padding: 0 10px;
+    width: 152px;
+}
+
+.plantsbuttons:hover {
+    background-color: #11523a;
+}
+
+.plantdiseasesbutton {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    background-color: #f6f6f6;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    height: auto;
+    font-size: 20px;
+    padding: 20px;
+}
+
+.plantdiseasesbutton:hover {
+    opacity: 0.9;
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    border: 1px solid #ddd;
+    /* Prevent double borders */
+    background-color: #f6f6f6;
+}
+
+ul li :hover {
+    background-color: #4EA685;
+}
+
+.plantstable {
+    margin: auto;
+    text-align: center;
+    border: none;
+    font-family: Poppins;
+}
+
+.plantscolumn {
+    padding: 30px;
+    width: 300px;
+    border: none;
+    /*margin: auto;*/
+    text-align: center;
+    font-family: Poppins;
+}
+
+.plantsrow {
+    margin: auto;
+    text-align: center;
+    border: none;
+    font-family: Poppins;
+}
+
+.remedybuttons {
+    color: f6f6f6;
+    background-color: #1a7553;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    height: 40px;
+    padding: 0 10px;
+    width: 152px;
+}
+
+.remedybuttons:hover {
+    background-color: #11523a;
+}
+
+.solutionscolumn {
+    padding: 20px;
+    width: 1200px;
+    border: none;
+    margin: auto;
+    text-align: center;
+    font-family: Poppins;
+}
+
+.solutionstable {
+ 
+    padding: 20px;
+    width: 80%;
+    border: none;
+    margin: auto;
+    text-align: center;
+    font-family: Poppins;
+}
+

@@ -1,0 +1,70 @@
+.adminbg {
+    place-items: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-Position: 'center';
+    margin-left: '280px';
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    font-size: 18px;
+}
+
+th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 10px;
+    background-color: #136b4b;
+    color: white;
+}
+
+td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #eae9e9;
+}
+
+.sidenavbuttons {
+    background-color: #c8ebd8;
+    border: none;
+    width: '300px';
+    height: '60px';
+    cursor: 'pointer';
+    padding: '15px 60px';
+}
+
+.sidenavbuttons:hover {
+    background-color: #4ec284;
+}
+
+.sidebuttons {
+    background-color: #c8ebd8;
+    border: none;
+    width: '300px';
+    height: '60px';
+    cursor: 'pointer';
+    padding: '15px 60px';
+}
+
+.sidenavbuttonsblank {
+    background-color: #c8ebd8;
+    border: none;
+    width: '300px';
+    height: '60px';
+    padding: '15px 60px';
+}
+
+.adminaddbuttons {
+    background-color: #6bb83b;
+}
+
+.adminaddbuttons:hover {
+    background-color: #09a26a;
+}
