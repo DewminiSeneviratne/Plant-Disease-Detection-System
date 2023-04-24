@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db, storage } from '../firebase';
-import { collection, orderBy, query } from "firebase/firestore";
-import { getDocs } from 'firebase/firestore';
+import { collection, orderBy, query, getDoc, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { signOut } from 'firebase/auth';
 import '../Pages/styles/plantdiseases.css'
 
@@ -12,7 +11,6 @@ import Avatar from "@material-ui/core/Avatar";
 import logo from "../images/cblogo.png";
 import OffRoundIcon from '@rsuite/icons/OffRound';
 
-import tomato from '../images/tomato.png';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -21,10 +19,12 @@ import Row from 'react-bootstrap/Row';
 const PlantDiseases = () => {
 
     const [showData, setShowData] = useState([]);
+    const [showDiseaseData, setShowDiseaseData] = useState([]);
 
     const [imageFile, setImageFile] = useState();
 
     const getDataRefContract = collection(db, "Plants");
+    const getDataRef = collection(db, "Remedies");
 
     useEffect(() => {
 
@@ -36,6 +36,14 @@ const PlantDiseases = () => {
         };
 
         getData();
+
+        const getRemedyData = async () => {
+            const data = await getDocs(getDataRef);
+            setShowDiseaseData(data.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
+            //console.log(data)
+        };
+
+        getRemedyData();
     }, [imageFile])
 
     let imageURL = ''
@@ -77,12 +85,13 @@ const PlantDiseases = () => {
             <br></br><br></br><br></br>
 
             <div class="main" id="section1">
-                <br></br><br></br> <br></br><br></br>
+                <br></br><br></br><br></br><br></br><br></br>
 
                 <h1 style={{
                     fontFamily: 'papyrus', textAlign: 'center', fontSize: '60px', color: '#093227',
                     marginLeft: '600px', marginRight: '600px', cursor: 'default'
                 }}>Plants</h1>
+                <br></br><br></br><br></br>
 
                 <table className='plantstable'>
 
@@ -110,108 +119,157 @@ const PlantDiseases = () => {
                                 )
                             })
                         }
-                    </Row >
 
+                    </Row >
                 </table>
 
             </div>
 
             <div class="main" id="section2">
                 <br></br><br></br><br></br><br></br><br></br>
-
-
                 <h1 style={{
                     fontFamily: 'papyrus', textAlign: 'center', fontSize: '60px', color: '#093227',
                     marginLeft: '500px', marginRight: '500px', cursor: 'default'
                 }}>Plant Diseases</h1>
 
                 <table className='plantstable'>
-                    <Row xs={1} md={2} className="g-4">
-                        {Array.from({ length: 4 }).map((_, idx) => (
-                            <Col className='plantscolumn'>
-                                <div class="plantdiseasescard">
-                                    <h1 style={{ backgroundColor: '#79c7ad', cursor: 'default' }}>Tomato</h1>
 
-                                    <div style={{ margin: '24px' }}>
-                                        <h3 style={{ cursor: 'default' }}>Diseases</h3>
-                                    </div>
-                                    <p>
-                                        <div class="main" id="section2">
-                                            <ul>
-                                                <li>
-                                                    <button className='plantdiseasesbutton'>
-                                                        <a style={{ color: "black", textDecoration: 'none' }} href='#section3'>Tomato Early Blight</a>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </p>
-                                </div>
-                            </Col>
-                        ))}
-                    </Row>
+                    <Row xs={1} md={2} className="g-4">
+
+                        {
+                            showData.map(({ id, post }) => {
+
+                                const diseases = [];
+
+                                for (var i = 0; i < post.records.length; i++) {
+                                    diseases.push(post.records[i].DiseaseName)
+                                }
+                                return (
+                                    <>
+                                        {Array.from({ length: 1 }).map((_, idx) => (
+                                            <Col className='plantscolumn'>
+                                                <div class="plantdiseasescard">
+
+                                                    <h1 style={{ backgroundColor: '#79c7ad', cursor: 'default' }}>{post.PlantName}</h1>
+
+                                                    <div style={{ margin: '24px' }}>
+                                                        <h3 style={{ cursor: 'default' }}>Diseases</h3>
+                                                    </div>
+
+                                                    {
+                                                        Object.values(post.records).map((rows, index) => {
+
+                                                            return (
+                                                                <>
+                                                                    <p>
+                                                                        <div class="main">
+                                                                            <ul>
+                                                                                <li>
+
+                                                                                    <button className='plantdiseasesbutton'>
+                                                                                        <a style={{ color: "black", textDecoration: 'none' }}
+                                                                                            href='#section3'>{rows.DiseaseName}</a>
+                                                                                    </button>
+
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </p>
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </Col>
+                                        ))}
+                                    </>
+                                )
+                            })
+                        }
+                    </Row >
+
                 </table>
+
             </div>
 
             <div class="main" id="section3">
                 <br></br><br></br><br></br><br></br><br></br>
 
                 <h1 style={{
-                    fontFamily: 'papyrus', textAlign: 'center', fontSize: '0px', color: '#093227',
-                    marginLeft: '300px', marginRight: '300px', cursor: 'default'
+                    fontFamily: 'papyrus', textAlign: 'center', fontSize: '60px', color: '#093227',
+                    marginLeft: '100px', marginRight: '100px', cursor: 'default'
                 }}>Remedies for Plant Diseases</h1>
 
                 <br></br><br></br><br></br><br></br>
 
                 <table className='plantstable'>
+
                     <Row xs={1} md={2} className="g-4">
-                        {Array.from({ length: 4 }).map((_, idx) => (
-                            <Col className='solutionscolumn'>
-                                <Card>
-                                    <Card.Body>
 
-                                        <Card.Title>
-                                            <h1>Corn</h1>
-                                        </Card.Title>
+                        {
+                            showData.map(({ id, post }) => {
 
-                                        <table className="solutionstable">
-                                            <thead>
-                                                <th>Plant Disease</th>
-                                                <th>Remedies</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        early blight
-                                                    </td>
-                                                    <td>
-                                                        remedy
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        late blight
-                                                    </td>
-                                                    <td>
-                                                        remedy
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                const diseases = [];
 
-                                        <Button variant="primary" className='remedybuttons'
-                                            style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
-                                            <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
-                                        </Button>
+                                for (var i = 0; i < post.records.length; i++) {
+                                    diseases.push(post.records[i].DiseaseName)
+                                }
+                                return (
+                                    <>
+                                        {Array.from({ length: 1 }).map((_, idx) => (
+                                            <Col className='solutionscolumn'>
+                                                <Card>
+                                                    <Card.Body>
 
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
+                                                        <Card.Title>
+                                                            <h1 style={{cursor:'default'}}>{post.PlantName}</h1>
+                                                        </Card.Title>
+
+                                                        <table className="solutionstable">
+                                                            <thead>
+                                                                <th>Plant Disease</th>
+                                                                <th>Remedies</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        {
+                                                                            Object.values(post.records).map((rows, index) => {
+
+                                                                                return (
+                                                                                    <>
+                                                                                        {rows.DiseaseName}
+                                                                                    </>
+                                                                                )
+                                                                            })
+                                                                        }                                                                    </td>
+                                                                    <td>
+                                                                        {post.Remedy}
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+
+                                                        <Button variant="primary" className='remedybuttons'
+                                                            style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
+                                                            <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
+                                                        </Button>
+
+                                                    </Card.Body>
+                                                </Card>
+                                            </Col >
+                                        ))}
+                                    </>
+                                )
+                            })
+                        }
+                    </Row >
+
                 </table>
             </div>
-        </div>
+        </div >
     );
 }
 

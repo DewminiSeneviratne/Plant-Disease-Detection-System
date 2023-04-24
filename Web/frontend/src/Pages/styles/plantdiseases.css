@@ -6,6 +6,36 @@ html {
     /*height: 600vh;*/
     background: linear-gradient(141deg, #6bb83b 0%, #4EA685 51%, #6bb83b 75%);
   }
+  
+#section1 {
+    background-image: url('/src/images/plantsbg.png');
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section2 {
+    background-image: url('/src/images/plantdiseasesbg.png');
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section3 {
+    background-image: url('/src/images/solutionsbg.png');
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 
 .card {
@@ -146,5 +176,6 @@ ul li :hover {
     margin: auto;
     text-align: center;
     font-family: Poppins;
+    cursor: default;
 }
 
