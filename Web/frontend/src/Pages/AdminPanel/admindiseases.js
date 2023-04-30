@@ -169,7 +169,6 @@ const AdminDiseases = () => {
                             <tr>
                                 <th>Plant Name</th>
                                 <th>Plant Diseases</th>
-                                <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -195,14 +194,6 @@ const AdminDiseases = () => {
 
                                                             <td>{rows.DiseaseName}</td>
 
-                                                            <td>
-                                                                <button href='/admindiseasesedit' type='submit'
-                                                                    style={{
-                                                                        borderRadius: '30px', border: 'none',
-                                                                        backgroundColor: '#4c9cae', color: 'white', fontSize: '20px',
-                                                                        fontWeight: 'bold', cursor: 'pointer'
-                                                                    }}>{<EditIcon />}</button>
-                                                            </td>
                                                             <td>
                                                                 <button onClick={(event) => deleteDisease(event,id,index)}
                                                                     style={{

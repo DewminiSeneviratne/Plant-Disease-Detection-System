@@ -66,8 +66,8 @@ function Launch() {
                                     </span>
                                     <a style={{ textDecoration: 'none', fontSize: '20px', fontWeight: 'bold' }}
                                     className="signuphere"
-                                        href='/register'>
-                                        Sign Up Here
+                                        href='/login'>
+                                        Sign In Here
                                     </a>
                                 </p>
                             </div>

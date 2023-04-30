@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db, storage } from '../firebase';
-import { collection, orderBy, query, getDoc, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, orderBy, query, getDoc, getDocs, addDoc, doc, updateDoc, deleteDoc, where } from "firebase/firestore";
 import { signOut } from 'firebase/auth';
 import '../Pages/styles/plantdiseases.css'
 
@@ -19,12 +19,16 @@ import Row from 'react-bootstrap/Row';
 const PlantDiseases = () => {
 
     const [showData, setShowData] = useState([]);
-    const [showDiseaseData, setShowDiseaseData] = useState([]);
+
+    const [showRemediesTomato, setShowRemediesTomato] = useState([]);
+    const [showRemediesPotato, setShowRemediesPotato] = useState([]);
+    const [showRemediesGrape, setShowRemediesGrape] = useState([]);
+    const [showRemediesCorn, setShowRemediesCorn] = useState([]);
 
     const [imageFile, setImageFile] = useState();
 
     const getDataRefContract = collection(db, "Plants");
-    const getDataRef = collection(db, "Remedies");
+    const getDataRefRemedies = collection(db, "Remedies");
 
     useEffect(() => {
 
@@ -38,12 +42,25 @@ const PlantDiseases = () => {
         getData();
 
         const getRemedyData = async () => {
-            const data = await getDocs(getDataRef);
-            setShowDiseaseData(data.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
-            //console.log(data)
+            const qryTomato = query(getDataRefRemedies, where("PlantName", "==", "Tomato"));
+            const dataTomato = await getDocs(qryTomato);
+            setShowRemediesTomato(dataTomato.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
+
+            const qryPotato = query(getDataRefRemedies, where("PlantName", "==", "Potato"));
+            const dataPotato = await getDocs(qryPotato);
+            setShowRemediesPotato(dataPotato.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
+
+            const qryGrape = query(getDataRefRemedies, where("PlantName", "==", "Grape"));
+            const dataGrape = await getDocs(qryGrape);
+            setShowRemediesGrape(dataGrape.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
+
+            const qryCorn = query(getDataRefRemedies, where("PlantName", "==", "Corn"));
+            const dataCorn = await getDocs(qryCorn);
+            setShowRemediesCorn(dataCorn.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
         };
 
         getRemedyData();
+
     }, [imageFile])
 
     let imageURL = ''
@@ -82,7 +99,7 @@ const PlantDiseases = () => {
                 </Toolbar>
             </AppBar>
 
-            <br></br><br></br><br></br>
+            <br/><br/><br/>
 
             <div class="main" id="section1">
                 <br></br><br></br><br></br><br></br><br></br>
@@ -200,74 +217,213 @@ const PlantDiseases = () => {
                     marginLeft: '100px', marginRight: '100px', cursor: 'default'
                 }}>Remedies for Plant Diseases</h1>
 
-                <br></br><br></br><br></br><br></br>
+                <br/><br/><br/><br/>
 
-                <table className='plantstable'>
+                                {/* Corn */}
+                                <table className='plantstable'>
 
-                    <Row xs={1} md={2} className="g-4">
+<Row xs={1} md={2} className="g-4">
 
+    <Col className='solutionscolumn'>
+        <Card>
+            <Card.Body>
+                <Card.Title>
+                    <h1 style={{ cursor: 'default' }}>Corn</h1>
+                </Card.Title>
+
+                <table className="solutionstable">
+                    <thead>
+                        <th>Plant Disease</th>
+                        <th>Remedies</th>
+                    </thead>
+                    <tbody>
                         {
-                            showData.map(({ id, post }) => {
+                            showRemediesCorn.map(({ id, post }) => {
 
-                                const diseases = [];
-
-                                for (var i = 0; i < post.records.length; i++) {
-                                    diseases.push(post.records[i].DiseaseName)
-                                }
                                 return (
                                     <>
-                                        {Array.from({ length: 1 }).map((_, idx) => (
-                                            <Col className='solutionscolumn'>
-                                                <Card>
-                                                    <Card.Body>
-
-                                                        <Card.Title>
-                                                            <h1 style={{cursor:'default'}}>{post.PlantName}</h1>
-                                                        </Card.Title>
-
-                                                        <table className="solutionstable">
-                                                            <thead>
-                                                                <th>Plant Disease</th>
-                                                                <th>Remedies</th>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        {
-                                                                            Object.values(post.records).map((rows, index) => {
-
-                                                                                return (
-                                                                                    <>
-                                                                                        {rows.DiseaseName}
-                                                                                    </>
-                                                                                )
-                                                                            })
-                                                                        }                                                                    </td>
-                                                                    <td>
-                                                                        {post.Remedy}
-                                                                    </td>
-
-                                                                </tr>
-
-                                                            </tbody>
-                                                        </table>
-
-                                                        <Button variant="primary" className='remedybuttons'
-                                                            style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
-                                                            <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
-                                                        </Button>
-
-                                                    </Card.Body>
-                                                </Card>
-                                            </Col >
-                                        ))}
+                                        <tr>
+                                            <td>
+                                                {post.DiseaseName}
+                                            </td>
+                                            <td>
+                                                {post.Remedy}
+                                            </td>
+                                        </tr>
                                     </>
                                 )
                             })
                         }
+                    </tbody>
+                </table>
+
+                <Button variant="primary" className='remedybuttons'
+                    style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
+                    <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
+                </Button>
+
+            </Card.Body>
+        </Card>
+    </Col >
+</Row >
+
+</table>
+
+{/* Grape */}
+<table className='plantstable'>
+
+<Row xs={1} md={2} className="g-4">
+
+    <Col className='solutionscolumn'>
+        <Card>
+            <Card.Body>
+                <Card.Title>
+                    <h1 style={{ cursor: 'default' }}>Grape</h1>
+                </Card.Title>
+
+                <table className="solutionstable">
+                    <thead>
+                        <th>Plant Disease</th>
+                        <th>Remedies</th>
+                    </thead>
+                    <tbody>
+                        {
+                            showRemediesGrape.map(({ id, post }) => {
+
+                                return (
+                                    <>
+                                        <tr>
+                                            <td>
+                                                {post.DiseaseName}
+                                            </td>
+                                            <td>
+                                                {post.Remedy}
+                                            </td>
+                                        </tr>
+                                    </>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
+
+                <Button variant="primary" className='remedybuttons'
+                    style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
+                    <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
+                </Button>
+
+            </Card.Body>
+        </Card>
+    </Col >
+</Row >
+
+</table>
+
+                
+
+                {/* Potato */}
+                <table className='plantstable'>
+
+                    <Row xs={1} md={2} className="g-4">
+
+                        <Col className='solutionscolumn'>
+                            <Card>
+                                <Card.Body>
+                                    <Card.Title>
+                                        <h1 style={{ cursor: 'default' }}>Potato</h1>
+                                    </Card.Title>
+
+                                    <table className="solutionstable">
+                                        <thead>
+                                            <th>Plant Disease</th>
+                                            <th>Remedies</th>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                showRemediesPotato.map(({ id, post }) => {
+
+                                                    return (
+                                                        <>
+                                                            <tr>
+                                                                <td>
+                                                                    {post.DiseaseName}
+                                                                </td>
+                                                                <td>
+                                                                    {post.Remedy}
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                    <Button variant="primary" className='remedybuttons'
+                                        style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
+                                        <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
+                                    </Button>
+
+                                </Card.Body>
+                            </Card>
+                        </Col >
                     </Row >
 
                 </table>
+
+                {/* Tomato */}
+                <table className='plantstable'>
+
+                    <Row xs={1} md={2} className="g-4">
+
+                        <Col className='solutionscolumn'>
+                            <Card>
+                                <Card.Body>
+                                    <Card.Title>
+                                        <h1 style={{ cursor: 'default' }}>Tomato</h1>
+                                    </Card.Title>
+
+                                    <table className="solutionstable">
+                                        <thead>
+                                            <th>Plant Disease</th>
+                                            <th>Remedies</th>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                showRemediesTomato.map(({ id, post }) => {
+
+                                                    return (
+                                                        <>
+                                                            <tr>
+                                                                <td>
+                                                                    {post.DiseaseName}
+                                                                </td>
+                                                                <td>
+                                                                    {post.Remedy}
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                    <Button variant="primary" className='remedybuttons'
+                                        style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
+                                        <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
+                                    </Button>
+
+                                </Card.Body>
+                            </Card>
+                        </Col >
+                    </Row >
+
+                </table>
+
+                
+
+
             </div>
         </div >
     );

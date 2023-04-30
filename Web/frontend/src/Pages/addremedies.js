@@ -70,7 +70,7 @@ function addRemedies() {
                     // onChange={e => setUserPassword(e.target.value)} 
                     />
 
-                    <textarea name="remedies" rows={4} cols={20}
+                    <textarea name="remedies" rows={7} cols={20}
                         type='password'
                         //value={confirmPassword}
                         required

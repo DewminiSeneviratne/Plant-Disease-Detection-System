@@ -190,7 +190,6 @@ const AdminPlants = () => {
                             <tr>
                                 <th>Plant Name</th>
                                 <th>Image</th>
-                                <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -203,15 +202,6 @@ const AdminPlants = () => {
                                         <td>
                                             <img src={post.PlantImageURL} style={{ width: '100px', height: '100px' }}
                                             />
-                                        </td>
-                                        <td>
-                                            <button href='/adminplantsedit' type='submit' style={{
-                                                borderRadius: '30px', border: 'none',
-                                                backgroundColor: '#4c9cae', color: 'white', fontSize: '20px', fontWeight: 'bold',
-                                                cursor: 'pointer'
-                                            }}>
-                                                {<EditIcon />}
-                                            </button>
                                         </td>
                                         <td>
                                             <button onClick={(event) => deleteplants(event, id, plantName)}

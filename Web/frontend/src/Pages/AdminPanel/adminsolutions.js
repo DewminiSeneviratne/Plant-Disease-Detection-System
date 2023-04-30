@@ -50,7 +50,8 @@ const AdminSolutions = () => {
 
     useEffect(() => {
 
-        const q = query(getDataRefContract);
+        const q = query(getDataRefContract, orderBy("PlantName"));
+
 
         const getData = async () => {
             const data = await getDocs(q);
