@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "663284861086",
+    "project_id": "plant-disease-detection-system",
+    "storage_bucket": "plant-disease-detection-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663284861086:android:2532a98633891899f8938f",
+        "android_client_info": {
+          "package_name": "com.example.crops_ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663284861086-cp0c3p80buflempblflu0bf6iae01cld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmma131EFQLExtQBu8uK4hpRpUxPj-fcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663284861086-cp0c3p80buflempblflu0bf6iae01cld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663284861086:android:1381f666098a3f50f8938f",
+        "android_client_info": {
+          "package_name": "com.example.mobileappone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663284861086-cp0c3p80buflempblflu0bf6iae01cld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmma131EFQLExtQBu8uK4hpRpUxPj-fcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663284861086-cp0c3p80buflempblflu0bf6iae01cld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
