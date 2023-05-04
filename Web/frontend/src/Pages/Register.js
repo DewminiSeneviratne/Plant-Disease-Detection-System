@@ -128,33 +128,13 @@ function Register() {
             onChange={e => setUserPassword(e.target.value)} />
 
           <input
-            type='password'
-            value={confirmPassword}
-            required
-            placeholder='Confirm your password'
-            onChange={e => setConfirmPassword(e.target.value)} />
-
-          <input
             type='text'
             value={userContactno}
             placeholder="Enter your contact number"
             required
             onChange={e => setUserContactno(e.target.value)} />
 
-          <input
-            type='text'
-            value={userAddress}
-            placeholder="Enter your address"
-            required
-            onChange={e => setUserAddress(e.target.value)} />
-
-          <input
-            type='text'
-            value={userOccupation}
-            placeholder="Enter your occupation"
-            required
-            onChange={e => setUserOccupation(e.target.value)} />
-
+         
           <button type='submit' className="signinupbutton"
             style={{
               borderRadius: '30px', border: 'none',

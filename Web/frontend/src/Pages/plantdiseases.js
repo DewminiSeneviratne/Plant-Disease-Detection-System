@@ -99,7 +99,7 @@ const PlantDiseases = () => {
                 </Toolbar>
             </AppBar>
 
-            <br/><br/><br/>
+            <br /><br /><br />
 
             <div class="main" id="section1">
                 <br></br><br></br><br></br><br></br><br></br>
@@ -217,109 +217,109 @@ const PlantDiseases = () => {
                     marginLeft: '100px', marginRight: '100px', cursor: 'default'
                 }}>Remedies for Plant Diseases</h1>
 
-                <br/><br/><br/><br/>
+                <br /><br /><br /><br />
 
-                                {/* Corn */}
-                                <table className='plantstable'>
+                {/* Corn */}
+                <table className='plantstable'>
 
-<Row xs={1} md={2} className="g-4">
+                    <Row xs={1} md={2} className="g-4">
 
-    <Col className='solutionscolumn'>
-        <Card>
-            <Card.Body>
-                <Card.Title>
-                    <h1 style={{ cursor: 'default' }}>Corn</h1>
-                </Card.Title>
+                        <Col className='solutionscolumn'>
+                            <Card>
+                                <Card.Body>
+                                    <Card.Title>
+                                        <h1 style={{ cursor: 'default' }}>Corn</h1>
+                                    </Card.Title>
 
-                <table className="solutionstable">
-                    <thead>
-                        <th>Plant Disease</th>
-                        <th>Remedies</th>
-                    </thead>
-                    <tbody>
-                        {
-                            showRemediesCorn.map(({ id, post }) => {
+                                    <table className="solutionstable">
+                                        <thead>
+                                            <th>Plant Disease</th>
+                                            <th>Remedies</th>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                showRemediesCorn.map(({ id, post }) => {
 
-                                return (
-                                    <>
-                                        <tr>
-                                            <td>
-                                                {post.DiseaseName}
-                                            </td>
-                                            <td>
-                                                {post.Remedy}
-                                            </td>
-                                        </tr>
-                                    </>
-                                )
-                            })
-                        }
-                    </tbody>
+                                                    return (
+                                                        <>
+                                                            <tr>
+                                                                <td>
+                                                                    {post.DiseaseName}
+                                                                </td>
+                                                                <td>
+                                                                    {post.Remedy}
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                    <Button variant="primary" className='remedybuttons'
+                                        style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
+                                        <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
+                                    </Button>
+
+                                </Card.Body>
+                            </Card>
+                        </Col >
+                    </Row >
+
                 </table>
 
-                <Button variant="primary" className='remedybuttons'
-                    style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
-                    <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
-                </Button>
+                {/* Grape */}
+                <table className='plantstable'>
 
-            </Card.Body>
-        </Card>
-    </Col >
-</Row >
+                    <Row xs={1} md={2} className="g-4">
 
-</table>
+                        <Col className='solutionscolumn'>
+                            <Card>
+                                <Card.Body>
+                                    <Card.Title>
+                                        <h1 style={{ cursor: 'default' }}>Grape</h1>
+                                    </Card.Title>
 
-{/* Grape */}
-<table className='plantstable'>
+                                    <table className="solutionstable">
+                                        <thead>
+                                            <th>Plant Disease</th>
+                                            <th>Remedies</th>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                showRemediesGrape.map(({ id, post }) => {
 
-<Row xs={1} md={2} className="g-4">
+                                                    return (
+                                                        <>
+                                                            <tr>
+                                                                <td>
+                                                                    {post.DiseaseName}
+                                                                </td>
+                                                                <td>
+                                                                    {post.Remedy}
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
 
-    <Col className='solutionscolumn'>
-        <Card>
-            <Card.Body>
-                <Card.Title>
-                    <h1 style={{ cursor: 'default' }}>Grape</h1>
-                </Card.Title>
+                                    <Button variant="primary" className='remedybuttons'
+                                        style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
+                                        <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
+                                    </Button>
 
-                <table className="solutionstable">
-                    <thead>
-                        <th>Plant Disease</th>
-                        <th>Remedies</th>
-                    </thead>
-                    <tbody>
-                        {
-                            showRemediesGrape.map(({ id, post }) => {
+                                </Card.Body>
+                            </Card>
+                        </Col >
+                    </Row >
 
-                                return (
-                                    <>
-                                        <tr>
-                                            <td>
-                                                {post.DiseaseName}
-                                            </td>
-                                            <td>
-                                                {post.Remedy}
-                                            </td>
-                                        </tr>
-                                    </>
-                                )
-                            })
-                        }
-                    </tbody>
                 </table>
 
-                <Button variant="primary" className='remedybuttons'
-                    style={{ cursor: 'pointer', width: '200px', height: '40px', marginTop: '50px' }}>
-                    <a style={{ color: "white", textDecoration: 'none' }} href='/addremedies'>Add Remedies</a>
-                </Button>
 
-            </Card.Body>
-        </Card>
-    </Col >
-</Row >
-
-</table>
-
-                
 
                 {/* Potato */}
                 <table className='plantstable'>
@@ -421,7 +421,7 @@ const PlantDiseases = () => {
 
                 </table>
 
-                
+
 
 
             </div>

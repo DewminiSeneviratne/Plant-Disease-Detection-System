@@ -16,6 +16,9 @@ import { common } from '@material-ui/core/colors';
 import Clear from '@material-ui/icons/Clear';
 import ArowBackIcon from '@rsuite/icons/ArowBack';
 
+import { db } from "./firebase";
+import { collection, orderBy, query, getDoc, getDocs, addDoc, doc, where } from "firebase/firestore";
+
 const ColorButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(common.white),
@@ -60,13 +63,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
-    height: "93vh",
+    //height: "93vh",
+    //height: "180vh",
+    height: "auto",
     marginTop: "8px",
+    backgroundAttachment: 'fixed',
   },
   imageCard: {
     margin: "auto",
     maxWidth: 400,
-    height: 500,
+    //height: 1000,
+    height: "auto",
     backgroundColor: 'transparent',
     boxShadow: '0px 9px 70px 0px rgb(0 0 0 / 30%) !important',
     borderRadius: '15px',
@@ -127,11 +134,13 @@ const useStyles = makeStyles((theme) => ({
   },
   detail: {
     backgroundColor: 'white',
-    display: 'flex',
+    //display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: "87%",
+    marginTop: "360px",
+    //height: '1000px',
+    height: 'auto'
   },
   appbar: {
     background: '#1a7553 ',
@@ -205,18 +214,33 @@ export const ImageUpload = () => {
     setImage(true);
   };
 
+  const [showRemedies, setShowRemedies] = useState([]);
+
+  async function getRemedies(disease) {
+
+    const getDataRefRemedies = collection(db, "Remedies");
+
+    const qryRemedy = query(getDataRefRemedies, where("DiseaseName", "==", disease));
+    const dataRemedy = await getDocs(qryRemedy);
+    setShowRemedies(dataRemedy.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
+  }
+
   if (data) {
     confidence = (parseFloat(data.confidence) * 100).toFixed(2);
+
+    getRemedies(data.class)
   }
+
+
 
   return (
     <React.Fragment>
       <AppBar style={{ backgroundColor: '#1a7553', padding: '10px', position: 'fixed', height: '100px' }}>
         <Toolbar>
           <Typography variant="h3" noWrap>
-          <Avatar style={{ height: '60px', width: '60px', top: '28px', marginLeft: '60px' }} src={logo}></Avatar>
+            <Avatar style={{ height: '60px', width: '60px', top: '28px', marginLeft: '60px' }} src={logo}></Avatar>
 
-          <div style={{ position: 'absolute', bottom: '17px', left: '20px' }}>
+            <div style={{ position: 'absolute', bottom: '17px', left: '20px' }}>
               <button type='submit' style={{ borderRadius: '30px', border: 'none', backgroundColor: '#6bb83b', color: 'white', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer' }}>
                 <a href='/' style={{ color: "white", textDecoration: 'none' }}>{<ArowBackIcon />}</a>
               </button>
@@ -280,11 +304,28 @@ export const ImageUpload = () => {
                         </TableCell>
                         <TableCell align="right" className={classes.tableCell}>{confidence}%</TableCell>
                       </TableRow>
+
+                      <TableRow className={classes.tableRow}>
+                        <TableCell align="right" className={classes.tableCell}>
+                          Remedies
+                        </TableCell>
+                      </TableRow>
+
+                      {showRemedies.map(({ id, post }) => {
+                        return (
+                          <TableRow className={classes.tableRow} >
+                            <TableCell scope="row" align="left" style={{ fontSize: '20px', width: "500px", height: '40px' }}>
+                              {post.Remedy}
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })}
+
                     </TableBody>
                   </Table>
                 </TableContainer>
               </CardContent>}
-              {isLoading && <CardContent className={classes.detail}>
+              {isLoading && <CardContent className={classes.detail} align="center">
                 <CircularProgress color="secondary" className={classes.loader} />
                 <Typography className={classes.title} variant="h6" noWrap>
                   Processing

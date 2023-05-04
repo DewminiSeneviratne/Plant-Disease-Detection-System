@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { auth, db } from '../../firebase';
-import { collection, orderBy, query } from "firebase/firestore";
-import { getDocs } from 'firebase/firestore';
+import React from "react";
+import { auth} from '../../firebase';
 import Sidenavbar from './sidenavbar';
 import OffRoundIcon from '@rsuite/icons/OffRound';
 import '../AdminPanel/adminstyles/adminhome.css'
@@ -38,13 +36,22 @@ const AdminHome = () => {
 
                     <p style={{ fontFamily: 'Poppins', fontSize: '40px', fontWeight: 'bold', cursor: 'default' }}>Home</p> <br></br>
 
-                    <table style={{ width: '90%' }}>
+                    <table style={{ width: '50%', marginLeft:'22%' }}>
                         <tr>
                             <th>Total Number of Plants</th>
-                            <th>Total Number of Diseases</th>
                         </tr>
                         <tr style={{ backgroundColor: 'white', fontWeight: 'bold', fontSize: '20px' }}>
                             <td>4</td>
+                        </tr>
+                    </table>
+
+                    <br></br><br></br><br></br><br></br><br></br>
+
+                    <table style={{ width: '50%', marginLeft:'22%' }}>
+                        <tr>
+                            <th>Total Number of Diseases</th>
+                        </tr>
+                        <tr style={{ backgroundColor: 'white', fontWeight: 'bold', fontSize: '20px' }}>
                             <td>10</td>
                         </tr>
                     </table>

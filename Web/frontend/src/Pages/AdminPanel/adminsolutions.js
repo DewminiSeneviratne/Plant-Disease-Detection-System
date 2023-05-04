@@ -11,6 +11,39 @@ import EditIcon from '@rsuite/icons/Edit';
 
 const AdminSolutions = () => {
 
+    const [showForm, setShowForm] = useState(false);
+
+    const [remedyID, setRemedyID] = useState("");
+    const [remedyPlantName, setRemedyPlantName] = useState("");
+    const [remedyDiseaseName, setRemedyDiseaseName] = useState("");
+    const [remedyRemedyName, setRemedyRemedyName] = useState("");
+    //console.log(remedyID)
+
+    const [alertMessage, setAlertMessage] = useState("");
+
+    async function updateRemedy() {
+
+        const remedyRef = doc(db, "Remedies", remedyID);
+        const docSnap = await getDoc(remedyRef);
+
+        if (docSnap.exists()) {
+            //console.log("Document data:", docSnap.data());
+            await updateDoc(remedyRef, {
+                PlantName: remedyPlantName,
+                DiseaseName: remedyDiseaseName,
+                Remedy: remedyRemedyName,
+            });
+            setAlertMessage("Record Updated Successfully.")
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }
+
+    const ShowForm = () => {
+        setShowForm(!showForm);
+    }
+
     const [diseaseName, setDiseaseName] = useState("");
     const [solutionName, setSolutionName] = useState("");
 
@@ -117,13 +150,13 @@ const AdminSolutions = () => {
                     </div>
                     <hr style={{ height: '5px', backgroundColor: '#1a7553' }}></hr>
                 </div>
-                <br></br><br></br><br></br><br></br><br></br>
+                <br></br><br></br><br></br><br></br>
 
                 <div style={{ marginLeft: '350px' }}>
 
                     <p style={{ fontFamily: 'Poppins', fontSize: '40px', fontWeight: 'bold', cursor: 'default' }}>Remedies</p> <br></br>
 
-                    <table style={{ width: '95%' }}>
+                    {/*<table style={{ width: '95%' }}>
                         <tr>
                             <th>Plant Disease</th>
                             <th>Remedies</th>
@@ -178,7 +211,50 @@ const AdminSolutions = () => {
                             </td>
                         </tr>
                     </table>
-                    <br></br><br></br><br></br>
+                                */}
+                    <br></br>
+
+                    {showForm && (
+                        <div className='adminedit'>
+                            <h1 style={{ cursor: 'default' }}>Edit Remedies</h1>
+                            <form name='admineditremedies_form'>
+
+                                <p style={{ backgroundColor: '#04AA6D', color: 'white' }}>
+                                    {alertMessage}
+                                </p>
+                                <input
+                                    type='text'
+                                    required
+                                    placeholder="Plant Name"
+                                    onChange={(e) => setRemedyPlantName(e.target.value)}
+                                    value={remedyPlantName}
+                                />
+                                <input
+                                    type='text'
+                                    required
+                                    placeholder="Disease Name"
+                                    onChange={(e) => setRemedyDiseaseName(e.target.value)}
+                                    value={remedyDiseaseName}
+                                />
+                                <input
+                                    type='text'
+                                    required
+                                    placeholder="Remedy"
+                                    onChange={(e) => setRemedyRemedyName(e.target.value)}
+                                    value={remedyRemedyName}
+                                />
+
+                                <button type='button' onClick={updateRemedy}
+                                    style={{
+                                        borderRadius: '30px', border: 'none', backgroundColor: '#4c9cae',
+                                        color: 'white', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer'
+                                    }}>Edit Remedy</button>
+                            </form>
+                        </div>
+                    )}
+
+                    <br></br>
+
                     <table style={{ width: '95%' }}>
                         <thead>
                             <tr>
@@ -197,18 +273,25 @@ const AdminSolutions = () => {
                                         <td>{post.DiseaseName}</td>
                                         <td>{post.Remedy}</td>
                                         <td>
-                                            <button href='/adminsolutionsedit' type='submit'
+                                            <button
+                                                onClick={function (event) {
+                                                    ShowForm(); setRemedyID(id); setRemedyDiseaseName(post.DiseaseName);
+                                                    setRemedyPlantName(post.PlantName); setRemedyRemedyName(post.Remedy)
+                                                }}
+                                                type="button"
                                                 style={{
                                                     borderRadius: '30px', border: 'none', backgroundColor: '#4c9cae',
                                                     color: 'white', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer'
-                                                }}>{<EditIcon />}</button>
+                                                }}>{<EditIcon />}
+                                            </button>
                                         </td>
                                         <td>
                                             <button type='submit' onClick={(event) => deleteSolution(event, id)} style={{
                                                 borderRadius: '30px',
                                                 border: 'none', backgroundColor: '#e93f3f', color: 'white', fontSize: '20px',
                                                 fontWeight: 'bold', cursor: 'pointer'
-                                            }}>{<TrashIcon />}</button>
+                                            }}>{<TrashIcon />}
+                                            </button>
                                         </td>
                                     </tr>
                                 )

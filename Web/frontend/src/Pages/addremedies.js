@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from "react";
 import '../Pages/styles/forms.css'
-import { db, auth } from '../firebase'
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
+import { auth, db } from '../firebase';
+import { collection, orderBy, query, getDocs, addDoc } from "firebase/firestore";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,10 +12,58 @@ import ArowBackIcon from '@rsuite/icons/ArowBack';
 import OffRoundIcon from '@rsuite/icons/OffRound';
 import { signOut } from 'firebase/auth';
 
-import { collection } from 'firebase/firestore';
-import { addDoc } from 'firebase/firestore';
+function AddRemedies() {
 
-function addRemedies() {
+    const [diseaseName, setDiseaseName] = useState("");
+    const [solutionName, setSolutionName] = useState("");
+
+    const getDataRefContract = collection(db, "Plants");
+    const getDataRef = collection(db, "Remedies");
+
+    const [showData, setShowData] = useState([]);
+
+    const [alertMessage, setAlertMessage] = useState("");
+
+    function diseasenamefunction(event) {
+        setDiseaseName(event.target.value)
+    }
+
+    async function addSolutions() {
+        var str_array = diseaseName.split(',');
+
+        let plantName = str_array[0]
+        let disease = str_array[1]
+
+        try {
+            const docRef = await addDoc(getDataRef, {
+                PlantName: plantName,
+                DiseaseName: disease,
+                Remedy: solutionName
+            });
+            setAlertMessage("Record Inserted Successfully.")
+
+            console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+    useEffect(() => {
+
+        const q = query(getDataRefContract, orderBy("PlantName"));
+
+
+        const getData = async () => {
+            const data = await getDocs(q);
+            setShowData(data.docs.map((docFiles) => ({ id: docFiles.id, post: docFiles.data() })));
+            //console.log(data)
+        };
+
+        getData();
+
+    })
+
+
     return (
         <div className='addremediesformbg'>
             <AppBar style={{ backgroundColor: '#1a7553', padding: '10px', position: 'fixed', height: '100px' }}>
@@ -46,40 +94,59 @@ function addRemedies() {
             <div className='auth'>
                 <h1 style={{ cursor: 'default' }}>Add Remedies</h1>
                 <form name='registration_form'>
+
+                    <p style={{ backgroundColor: '#04AA6D', color: 'white' }}>
+                        {alertMessage}
+                    </p>
+
+                    {/*
                     <input
                         type='text'
-                        //value={userName}
-                        placeholder="Plant Name"
-                        required
-                    //onChange={e => setUserName(e.target.value)} 
-                    />
-
-                    <input
-                        type='email'
-                        //value={userEmail}
                         placeholder="Plant Disease"
                         required
-                    //onChange={e => setUserEmail(e.target.value)} 
-                    />
+                        />
+                    */}
 
-                    <input
-                        type='password'
-                        //value={userPassword}
-                        required
-                        placeholder='Remedies'
-                    // onChange={e => setUserPassword(e.target.value)} 
-                    />
+                    <select id="diseases" name="diseases"
+                        onChange={diseasenamefunction}
+                        style={{ width: '100%', padding: '5px', fontSize: '17px' }} required>
+                        <option value="">
+                            Select Option
+                        </option>
+
+                        {
+                            showData.map(({ id, post }) => {
+                                return (
+                                    <>
+                                        {
+                                            Object.values(post.records).map((rows, index) => {
+                                                let keyValue = [post.PlantName, rows.DiseaseName]
+                                                return (
+                                                    <>
+                                                        <option value={keyValue} key={index}>
+                                                            {post.PlantName} | {rows.DiseaseName}
+                                                        </option>
+
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                    </>
+                                )
+                            })
+                        }
+                    </select>
 
                     <textarea name="remedies" rows={7} cols={20}
-                        type='password'
-                        //value={confirmPassword}
+                        type='text'
                         required
+                        value={solutionName}
+                        onChange={(e) => setSolutionName(e.target.value)}
                         placeholder='Add Remedies'
                         style={{ width: '100%', padding: '10px', fontSize: '17px' }}
-                    //onChange={e => setConfirmPassword(e.target.value)} 
                     />
 
-                    <button type='submit' className="signinupbutton"
+                    <button type='button' className="signinupbutton" onClick={addSolutions}
                         style={{
                             borderRadius: '30px', border: 'none', color: 'white', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer'
                         }}>ADD</button>
@@ -89,4 +156,4 @@ function addRemedies() {
     )
 }
 
-export default addRemedies
+export default AddRemedies
