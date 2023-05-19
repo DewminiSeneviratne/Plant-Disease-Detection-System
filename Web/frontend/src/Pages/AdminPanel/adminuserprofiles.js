@@ -65,7 +65,6 @@ const AdminProfiles = () => {
                                 <th>Password</th>
                                 <th>Email</th>
                                 <th>Contact Number</th>
-                                <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -77,13 +76,6 @@ const AdminProfiles = () => {
                                         <td>{post.email}</td>
                                         <td>{post.password}</td>
                                         <td>{post.contactno}</td>
-                                        <td>
-                                            <button type='submit' style={{
-                                                borderRadius: '30px', border: 'none',
-                                                backgroundColor: '#4c9cae', color: 'white', fontSize: '20px',
-                                                fontWeight: 'bold', cursor: 'pointer'
-                                            }}>{<EditIcon />}</button>
-                                        </td>
                                         <td>
                                             <button type='submit' style={{
                                                 borderRadius: '30px', border: 'none',

@@ -38,7 +38,7 @@ const AdminPlants = () => {
 
         const querySnapshot = await getDocs(getDataRefRemediesQuery);
         querySnapshot.forEach(async (docFile) => {
-        // doc.data() is never undefined for query doc snapshots
+            // doc.data() is never undefined for query doc snapshots
             console.log(docFile.id, " => ", docFile.data());
             await deleteDoc(doc(db, "Remedies", docFile.id))
         });
@@ -49,7 +49,7 @@ const AdminPlants = () => {
                 doc.ref.delete();
             });
         });*/
-        
+
         //await deleteDoc(doc(db, "Remedies", data.id))
         await deleteDoc(doc(db, "Plants", id))
 
@@ -147,6 +147,9 @@ const AdminPlants = () => {
                     <form>
                         <table style={{ width: '95%' }}>
                             <tr>
+                                <th colSpan={2} style={{ backgroundColor: '#4ec284', padding: '2px' }}>Add Plant</th>
+                            </tr>
+                            <tr>
                                 <th>Plant Name</th>
                                 <th>Image</th>
                             </tr>
@@ -170,10 +173,10 @@ const AdminPlants = () => {
                                     />
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style={{ backgroundColor: 'white' }}>
                                 <td colSpan={2} style={{ border: 'none', textAlign: 'right' }}>
                                     <button className="adminaddbuttons"
-                                    type='submit' onClick={submit}
+                                        type='submit' onClick={submit}
                                         style={{
                                             width: '250px', borderRadius: '30px',
                                             border: 'none', color: 'white', fontSize: '20px', fontWeight: 'bold',

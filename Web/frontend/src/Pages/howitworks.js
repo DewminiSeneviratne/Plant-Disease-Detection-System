@@ -35,10 +35,22 @@ function howItWorks() {
       </AppBar>
       <br></br><br></br><br></br><br></br><br></br>
 
-      <div style={{height:'83vh'}}>
-        <h1 style={{ color: "white", fontSize: '60px', textAlign: 'left', fontFamily: 'papyrus', backgroundColor:'#11523a' }}>How it works?</h1>
+      <div style={{ height: '83vh' }}>
+        <h1 style={{ color: "white", fontSize: '60px', textAlign: 'left', fontFamily: 'papyrus', backgroundColor: '#11523a' }}>How it works?</h1>
       </div>
-        
+      <footer style={{ backgroundColor: '#1a7553', width: '100%', textAlign: 'center', marginBottom: '0px', padding: '50px', position: 'relative' }}>
+
+        <p style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '25px', fontWeight: 'bold', cursor: 'default' }}>
+          CropsAI<br></br> </p>
+        <p style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '20px', cursor: 'default' }}>
+          Plant Disease Detection System<br></br>
+          <a style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '15px', textDecoration: 'none' }}
+            href="mailto:hege@example.com">info@cropsai.lk</a> <br></br>
+          <a style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '15px', textDecoration: 'none' }}
+            href="tel:#">
+            +94 117 400 400 or +94 777 740 750</a>
+        </p>
+      </footer>
     </div>
 
   )

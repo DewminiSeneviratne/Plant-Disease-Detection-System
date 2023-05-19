@@ -156,6 +156,9 @@ const AdminDiseases = () => {
 
                     <table style={{ width: '95%' }}>
                         <tr>
+                            <th colSpan={2} style={{ backgroundColor: '#4ec284', padding: '2px' }}>Add Plant Disease</th>
+                        </tr>
+                        <tr>
                             <th>Plant Name</th>
                             <th>Plant Disease</th>
                         </tr>
@@ -185,7 +188,7 @@ const AdminDiseases = () => {
                                     required />
                             </td>
                         </tr>
-                        <tr>
+                        <tr style={{ backgroundColor: 'white' }}>
                             <td colSpan={2} style={{ border: 'none', textAlign: 'right' }}>
                                 <button type='submit' onClick={submit} className="adminaddbuttons"
                                     style={{

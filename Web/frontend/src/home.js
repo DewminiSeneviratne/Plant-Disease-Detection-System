@@ -79,7 +79,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '15px',
   },
   imageCardEmpty: {
-    height: 'auto',
+    //height: 'auto',
+    //height:'580px',
+    paddingBottom:'187px',
+    paddingTop:'100px',
   },
   noImage: {
     margin: "auto",
@@ -151,7 +154,8 @@ const useStyles = makeStyles((theme) => ({
   },
   loader: {
     color: '#72be6a !important',
-  }
+  },
+
 }));
 export const ImageUpload = () => {
   const classes = useStyles();
@@ -282,12 +286,14 @@ export const ImageUpload = () => {
               </CardActionArea>
               }
               {!image && <CardContent className={classes.content}>
-                <DropzoneArea
+                <DropzoneArea 
                   acceptedFiles={['image/*']}
-                  dropzoneText={"Drag and drop an image of a plant leaf to process"}
+                  dropzoneText={"Drag and drop an image of a plant leaf to process"} 
                   onChange={onSelectFile}
                 />
               </CardContent>}
+
+
               {data && <CardContent className={classes.detail}>
                 <TableContainer component={Paper} className={classes.tableContainer}>
                   <Table className={classes.table} size="small" aria-label="simple table">
@@ -325,6 +331,7 @@ export const ImageUpload = () => {
                   </Table>
                 </TableContainer>
               </CardContent>}
+              
               {isLoading && <CardContent className={classes.detail} align="center">
                 <CircularProgress color="secondary" className={classes.loader} />
                 <Typography className={classes.title} variant="h6" noWrap>
@@ -339,6 +346,7 @@ export const ImageUpload = () => {
               <ColorButton variant="contained" className={classes.clearButton} color="primary" component="span" size="large" onClick={clearData} startIcon={<Clear fontSize="large" />}>
                 Clear
               </ColorButton>
+              <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
             </Grid>}
         </Grid >
 

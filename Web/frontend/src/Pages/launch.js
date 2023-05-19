@@ -36,7 +36,7 @@ function Launch() {
                         </div>
 
                         <div style={{ position: 'absolute', bottom: '16px', right: '200px', }}>
-                            <a href='/howitworks' style={{ fontSize:'30px' , color: "white", textDecoration: 'none', fontFamily: 'papyrus',  height: '60px', width: '60px' }} >How it works?</a>
+                            <a href='/howitworks' style={{ fontSize: '30px', color: "white", textDecoration: 'none', fontFamily: 'papyrus', height: '60px', width: '60px' }} >How it works?</a>
                         </div>
                     </Typography>
                 </Toolbar>
@@ -65,7 +65,7 @@ function Launch() {
                                         <br></br>Join With Us to Share Your Knowledge <br></br>
                                     </span>
                                     <a style={{ textDecoration: 'none', fontSize: '20px', fontWeight: 'bold' }}
-                                    className="signuphere"
+                                        className="signuphere"
                                         href='/login'>
                                         Sign In Here
                                     </a>
@@ -93,6 +93,19 @@ function Launch() {
                         </div>
                     </div>
                 </div>
+                <footer style={{ backgroundColor: '#1a7553', width: '100%', textAlign: 'center', marginBottom: '0px', padding: '50px', position: 'relative' }}>
+
+                    <p style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '25px', fontWeight: 'bold', cursor: 'default' }}>
+                        CropsAI<br></br> </p>
+                    <p style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '20px', cursor: 'default' }}>
+                        Plant Disease Detection System<br></br>
+                        <a style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '15px', textDecoration: 'none' }}
+                            href="mailto:hege@example.com">info@cropsai.lk</a> <br></br>
+                        <a style={{ backgroundColor: '#1a7553', color: 'white', fontSize: '15px', textDecoration: 'none' }}
+                            href="tel:#">
+                            +94 117 400 400 or +94 777 740 750</a>
+                    </p>
+                </footer>
             </div>
         </>
     )
