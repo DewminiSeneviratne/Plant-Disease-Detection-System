@@ -7,15 +7,15 @@ import 'launch_screen.dart';
 class TreatmentsScreen extends StatefulWidget {
   final String diseaseName;
 
-  const TreatmentsScreen({required this.diseaseName});
+  TreatmentsScreen({required this.diseaseName});
 
   get email_user => null;
 
   @override
-  _TreatmentsPageState createState() => _TreatmentsPageState();
+  _TreatmentsScreenState createState() => _TreatmentsScreenState();
 }
 
-class _TreatmentsPageState extends State<TreatmentsScreen> {
+class _TreatmentsScreenState extends State<TreatmentsScreen> {
   List<String> _treatments = [];
 
   @override
@@ -26,7 +26,7 @@ class _TreatmentsPageState extends State<TreatmentsScreen> {
 
   _fetchTreatments() async {
     final response = await http.post(
-        Uri.parse("http://192.168.8.162/visio/treatments_fetch.php"),
+        Uri.parse("http://10.10.122.43/cropsai/treatments_fetch.php"),
         body: {
           "disease": widget.diseaseName,
         });
@@ -42,6 +42,12 @@ class _TreatmentsPageState extends State<TreatmentsScreen> {
     } else {
       throw Exception('Failed to fetch treatments');
     }
+  }
+
+  _navigatetohome() async {
+    await Future.delayed(const Duration(milliseconds: 3000), () {});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LaunchScreen()));
   }
 
   @override

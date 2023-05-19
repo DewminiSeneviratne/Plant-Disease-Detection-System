@@ -2,11 +2,12 @@
 
 //import 'dart:html';
 
+import 'dart:convert';
+
 import 'package:crops_ai/screens/result_page.dart';
 import 'package:crops_ai/screens/signin_screen.dart';
 import 'package:crops_ai/screens/test_screen.dart';
 import 'package:flutter/material.dart';
-import '../utils/color_utils.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -26,7 +27,7 @@ class LaunchScreen extends StatefulWidget {
 }
 
 class _LaunchScreenState extends State<LaunchScreen> {
-  Future<String> predictEyeDisease(String imagePath) async {
+  Future<String> predictPlantDisease(String imagePath) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('http://localhost:8000/predict'));
     var pic = await http.MultipartFile.fromPath("image", imagePath);
@@ -40,6 +41,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
   File? _image;
   String? _predictionResult; // Added new variable to store prediction result
   double? _confidence;
+  String? _disease;
 
   Future<void> _getImageAndPredict() async {
     final picker = ImagePicker();
@@ -48,7 +50,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
     if (pickedFile != null) {
       final imageFile = File(pickedFile.path);
-      await predictEyeDisease2(imageFile);
+      await predictPlantDisease2(imageFile);
       setState(() {
         _image = imageFile;
       });
@@ -58,6 +60,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
           builder: (context) => Result(
             predictionResult: _predictionResult!,
             confidence: _confidence!,
+            diseases: _disease!,
           ),
         ),
       );
@@ -66,8 +69,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
     }
   }
 
-  Future<void> predictEyeDisease2(File imageFile) async {
-    final url = 'http://192.168.8.162:8000/predict';
+  Future<void> predictPlantDisease2(File imageFile) async {
+    final url = 'http://192.168.8.131:8000/predict';
 
     // Create a multipart request with a single file part
     final request = http.MultipartRequest('POST', Uri.parse(url));
@@ -83,13 +86,44 @@ class _LaunchScreenState extends State<LaunchScreen> {
     // Send the request and wait for the response
     final response = await http.Response.fromStream(await request.send());
     if (response.statusCode == 200) {
+      print("inString start");
       // Parse the response and handle the result
       final result = response.body.split(",");
       final predictionResult = result[0].replaceAll(RegExp(r'[\[\]" ]'), '');
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      final diseases = jsonMap['class'];
+      print(diseases);
+      print("inString 1");
+
+      String confidenceString = result[1].replaceAll(']', '').trim();
+      print("inString 1.5");
+      String confidenceString2 = confidenceString.replaceAll('}', '').trim();
+      String confidenceString3 =
+          confidenceString2.replaceAll('confidence:', '').trim();
+
+      String confidenceString4 = confidenceString3.substring(13, 19);
+
+      print("String value $confidenceString3");
+      print("Final String $confidenceString4");
+
+      double d = double.parse(confidenceString4);
+      print("inString 3");
+      //String inString = d.toStringAsFixed(2); // '2.35'
+      //_confidence = double.parse(inString); // 2.35
+      print("inString");
+
       print(result);
       setState(() {
         _predictionResult = predictionResult;
-        _confidence = double.parse(result[1].replaceAll(']', '').trim());
+        _disease = diseases;
+        //String confidenceString = result[1].replaceAll(']', '').trim();
+        //_confidence = double.parse(confidenceString.replaceAll('}', '').trim());
+        //double d = double.parse(confidenceString.replaceAll('}', '').trim());
+        //String inString = d.toStringAsFixed(1); // '2.35'
+        //_confidence = double.parse(inString); // 2.35
+        // _confidence = double.parse(inString);
+        _confidence = d;
+
         print(_predictionResult);
         print(_confidence);
       });
@@ -106,6 +140,12 @@ class _LaunchScreenState extends State<LaunchScreen> {
       context,
       MaterialPageRoute(builder: (context) => PlantDiseasePredictor()),
     );
+  }
+
+  _navigatetohome() async {
+    await Future.delayed(const Duration(milliseconds: 3000), () {});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LaunchScreen()));
   }
 
   @override

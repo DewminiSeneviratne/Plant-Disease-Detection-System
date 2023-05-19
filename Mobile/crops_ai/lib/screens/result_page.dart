@@ -1,6 +1,8 @@
+import 'package:crops_ai/screens/remedies_screen.dart';
 import 'package:crops_ai/screens/treatments_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'launch_screen.dart';
 
@@ -8,11 +10,14 @@ import 'launch_screen.dart';
 
 class Result extends StatefulWidget {
   final String? predictionResult;
+
   final double? confidence;
+  final String? diseases;
   //const Result({super.key});
   Result({
     required this.predictionResult,
     required this.confidence,
+    required this.diseases,
   });
 
   @override
@@ -20,14 +25,14 @@ class Result extends StatefulWidget {
 }
 
 class _ResultState extends State<Result> {
-  @override
+  /*@override
   void initState() {
     super.initState();
     _updatePercentage();
-  }
+  }*/
 
   Future<void> _updatePercentage() async {
-    final url = 'http://192.168.8.162/visio/updatePercentage.php';
+    final url = 'http://192.168.8.131/cropsai/updatePercentage.php';
     final response = await http.post(
       Uri.parse(url),
       body: {
@@ -40,6 +45,12 @@ class _ResultState extends State<Result> {
     } else {
       print('Failed to update percentage: ${response.reasonPhrase}');
     }
+  }
+
+  _navigatetohome() async {
+    await Future.delayed(const Duration(milliseconds: 3000), () {});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LaunchScreen()));
   }
 
   @override
@@ -58,17 +69,17 @@ class _ResultState extends State<Result> {
                   child: Stack(
                     children: [
                       Container(
-                        padding: const EdgeInsets.fromLTRB(170, 25, 16, 220),
+                        padding: const EdgeInsets.fromLTRB(170, 25, 16, 140),
                         child: const Text(
                           'Result',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 20,
+                            fontSize: 25,
                             fontWeight: FontWeight.w500,
                             height: 1.4117647059,
                             letterSpacing: -0.1000000015,
-                            color: Colors.black,
+                            color: Color.fromARGB(255, 73, 185, 148),
                           ),
                         ),
                       ),
@@ -79,7 +90,7 @@ class _ResultState extends State<Result> {
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 218),
                           width: 375,
-                          height: 800,
+                          height: 830,
                           decoration: const BoxDecoration(
                             color: Color(0xccFFFFFF),
                           ),
@@ -126,14 +137,14 @@ class _ResultState extends State<Result> {
                                                         2, 0, 0, 0),
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
-                                                        0, 0, 100, 8),
+                                                        0, 0, 0, 8),
                                                 child: const Text(
-                                                  'Confidence',
+                                                  'The probability of having',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontFamily: 'Roboto-Light',
                                                     fontSize: 19,
-                                                    fontWeight: FontWeight.w700,
+                                                    fontWeight: FontWeight.w500,
                                                     height: 1.4117647059,
                                                     letterSpacing:
                                                         -0.1000000015,
@@ -147,10 +158,20 @@ class _ResultState extends State<Result> {
                                                         2, 0, 0, 0),
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
-                                                        0, 0, 220, 8),
+                                                        0, 0, 0, 8),
                                                 child: Text(
-                                                    widget.predictionResult ??
-                                                        'No result'),
+                                                  widget.diseases ??
+                                                      'No result',
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Roboto-Light',
+                                                    fontSize: 19,
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 1.4117647059,
+                                                    letterSpacing:
+                                                        -0.1000000015,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
                                               ),
                                               const SizedBox(
                                                 height: 20,
@@ -176,27 +197,28 @@ class _ResultState extends State<Result> {
                                                     ),
                                                   ],
                                                 ),
-                                                // child: Center(
-                                                //   child:
-                                                //       CircularPercentIndicator(
-                                                //     radius: 75.0,
-                                                //     percent:
-                                                //         widget.confidence ??
-                                                //             0.0,
-                                                //     animation: true,
-                                                //     progressColor:
-                                                //         Color(0xffde3787),
-                                                //     circularStrokeCap:
-                                                //         CircularStrokeCap.round,
-                                                //     lineWidth: 20.0,
-                                                //     center: Text(
-                                                //       '${((widget.confidence ?? 0.0) * 100.0).floor()}%',
-                                                //       style: const TextStyle(
-                                                //           color: Colors.black,
-                                                //           fontSize: 24),
-                                                //     ),
-                                                //   ),
-                                                // ),
+                                                child: Center(
+                                                  child:
+                                                      CircularPercentIndicator(
+                                                    radius: 75.0,
+                                                    percent:
+                                                        widget.confidence ??
+                                                            0.0,
+                                                    animation: true,
+                                                    progressColor:
+                                                        const Color.fromARGB(
+                                                            255, 73, 185, 148),
+                                                    circularStrokeCap:
+                                                        CircularStrokeCap.round,
+                                                    lineWidth: 20.0,
+                                                    center: Text(
+                                                      '${((widget.confidence ?? 0.0) * 100.0).floor()}%',
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 24),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -219,21 +241,14 @@ class _ResultState extends State<Result> {
                                             onPressed: () {
                                               if (widget.predictionResult !=
                                                   null) {
-                                                // Navigator.push(
-                                                //     context,
-                                                //     MaterialPageRoute(
-                                                //       builder: (context) =>
-                                                //           TreatmentsPage(
-                                                //               diseaseName: widget
-                                                //                   .predictionResult!),
-                                                //     ));
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const TreatmentsScreen(
-                                                              diseaseName: '',
-                                                            )));
+                                                      builder: (context) =>
+                                                          RemediesScreen(
+                                                              diseaseName: widget
+                                                                  .diseases!),
+                                                    ));
                                               }
                                             },
                                             style: TextButton.styleFrom(

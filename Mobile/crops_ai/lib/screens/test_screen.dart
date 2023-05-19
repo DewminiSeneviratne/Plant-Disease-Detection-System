@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:crops_ai/screens/result_page.dart';
 import 'package:crops_ai/screens/signin_screen.dart';
@@ -5,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 //import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-
-import 'package:http/http.dart' as http;
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -26,6 +25,7 @@ class _PlantDiseasePredictorState extends State<PlantDiseasePredictor> {
   File? _image;
   String? _predictionResult; // Added new variable to store prediction result
   double? _confidence;
+  String? _disease;
 
   Future<void> _getImageAndPredict() async {
     final picker = ImagePicker();
@@ -43,7 +43,7 @@ class _PlantDiseasePredictorState extends State<PlantDiseasePredictor> {
   }
 
   Future<void> predictPlantDisease(File imageFile) async {
-    final url = 'http://192.168.8.162:8000/predict';
+    final url = 'http://192.168.8.131:8000/predict';
 
     // Create a multipart request with a single file part
     final request = http.MultipartRequest('POST', Uri.parse(url));
@@ -62,14 +62,18 @@ class _PlantDiseasePredictorState extends State<PlantDiseasePredictor> {
       // Parse the response and handle the result
       final result = response.body.split(",");
       final predictionResult = result[0].replaceAll(RegExp(r'[\[\]" ]'), '');
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      final diseases = jsonMap['class'];
       print(result);
       setState(() {
         _predictionResult = predictionResult;
         _confidence = double.parse(result[1].replaceAll(']', '').trim());
+        _disease = diseases;
+
         print(_predictionResult);
         print(_confidence);
       });
-      _navigateToReport();
+      //_navigatetoreport();
     } else {
       // Handle the error
       print('Error: ${response.statusCode}');
@@ -84,9 +88,16 @@ class _PlantDiseasePredictorState extends State<PlantDiseasePredictor> {
         builder: (context) => Result(
           predictionResult: _predictionResult,
           confidence: _confidence,
+          diseases: _disease,
         ),
       ),
     );
+  }
+
+  _navigatetohome() async {
+    await Future.delayed(const Duration(milliseconds: 3000), () {});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LaunchScreen()));
   }
 
   @override
@@ -160,12 +171,12 @@ class _PlantDiseasePredictorState extends State<PlantDiseasePredictor> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     0, 0, 0, 0),
                                                 margin: EdgeInsets.fromLTRB(
-                                                    0, 0, 60, 8),
+                                                    0, 0, 0, 0),
                                                 child: const Text(
                                                   'Please follow the instructions',
                                                   style: TextStyle(
                                                     fontFamily: 'Roboto-Light',
-                                                    fontSize: 19,
+                                                    fontSize: 20,
                                                     fontWeight: FontWeight.w700,
                                                     height: 1.4117647059,
                                                     letterSpacing:
@@ -182,12 +193,12 @@ class _PlantDiseasePredictorState extends State<PlantDiseasePredictor> {
                                                 margin: EdgeInsets.fromLTRB(
                                                     0, 0, 10, 8),
                                                 child: const Text(
-                                                  '1. Hold the phone close to the plant leaf '
+                                                  '1. Hold the phone close to the plant leaf \n'
                                                   '2. Hold the phone still',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontFamily: 'Roboto-Thin',
-                                                    fontSize: 19,
+                                                    fontSize: 18,
                                                     fontWeight: FontWeight.w700,
                                                     height: 1.4117647059,
                                                     letterSpacing:
@@ -210,7 +221,7 @@ class _PlantDiseasePredictorState extends State<PlantDiseasePredictor> {
                                                 height: 200,
                                                 decoration: BoxDecoration(
                                                   color: Color.fromARGB(
-                                                      255, 244, 254, 241),
+                                                      255, 247, 253, 245),
                                                   //borderRadius:
                                                   //BorderRadius.circular(16),
                                                   border: Border.all(

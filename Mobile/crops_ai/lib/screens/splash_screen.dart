@@ -1,3 +1,4 @@
+import 'package:crops_ai/screens/launch_screen.dart';
 import 'package:crops_ai/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 //import 'package:untitled/basic_treatments.dart';
@@ -30,7 +31,7 @@ class _SplashState extends State<Splash> {
   _navigatetologin() async {
     await Future.delayed(const Duration(milliseconds: 3000), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const SignInScreen()));
+        context, MaterialPageRoute(builder: (context) => const LaunchScreen()));
   }
 
   @override
@@ -42,8 +43,8 @@ class _SplashState extends State<Splash> {
         child: Container(
             child: Image.asset(
           'assets/images/logo.png',
-          height: 800,
-          width: 800,
+          height: 100,
+          width: 100,
         )),
       ),
     );
